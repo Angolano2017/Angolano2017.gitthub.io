@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AURION ONLINE — HANTEC EDITION</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#D4A843;--gold2:#F0C866;--green:#00E090;--red:#FF4466;
+  --blue:#4488FF;--purple:#9966FF;--bg:#080C14;--bg2:#0D1220;
+  --bg3:#121828;--border:#1E2A40;--text:#C8D8F0;
+  --mono:'Share Tech Mono',monospace;--raj:'Rajdhani',sans-serif;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--raj);min-height:100vh;overflow-x:hidden}
+.wrap{max-width:440px;margin:0 auto;padding-bottom:50px}
+
+/* HEADER */
+.hdr{padding:16px 14px 12px;border-bottom:1px solid var(--border);background:#090D16;position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.logo{font-family:var(--mono);font-size:14px;color:var(--gold);letter-spacing:2px;font-weight:700}
+.online-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--green);background:#001A0E;border:1px solid #003A20;padding:3px 10px;border-radius:20px}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hdr-sub{font-family:var(--mono);font-size:9px;color:#3A5070;letter-spacing:3px;margin-bottom:8px}
+.hdr-row{display:flex;justify-content:space-between;align-items:center}
+.hdr-name{font-family:var(--mono);font-size:10px;color:#4A6080}
+.hdr-name span{color:var(--gold)}
+.live-time{font-family:var(--mono);font-size:11px;color:var(--gold);background:#1A1408;border:1px solid #3A2A08;padding:3px 10px;border-radius:4px}
+
+/* SECTIONS */
+.section{padding:12px 14px}
+.sec-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:#3A5070;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.sep{height:1px;background:var(--border);margin:0 14px}
+
+/* SCORE PRINCIPAL */
+.score-main{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 16px;text-align:center;position:relative;overflow:hidden}
+.score-main::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.score-sym{font-family:var(--mono);font-size:9px;color:#4A6080;letter-spacing:3px;margin-bottom:6px}
+.score-number{font-family:var(--mono);font-size:58px;font-weight:700;line-height:1;color:var(--gold);transition:color .5s}
+.score-label{font-size:14px;letter-spacing:3px;margin-top:4px;font-weight:700;transition:color .5s}
+.score-bar-wrap{height:5px;background:var(--bg3);border-radius:3px;margin:12px 0 8px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:3px;transition:width .8s,background .5s}
+.score-meta{display:flex;justify-content:space-between}
+.score-meta span{font-family:var(--mono);font-size:9px;color:#3A5070}
+.score-meta b{color:#6A8AB0}
+
+/* TF BUTTONS */
+.tfs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tfs::-webkit-scrollbar{display:none}
+.tf-btn{font-family:var(--mono);font-size:10px;padding:5px 12px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);color:#4A6080;cursor:pointer;white-space:nowrap;transition:.2s;flex-shrink:0}
+.tf-btn.active{border-color:var(--gold);color:var(--gold);background:#1A1408}
+
+/* GAUGES */
+.gauges{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.gauge{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center;position:relative;overflow:hidden;cursor:pointer;transition:.2s}
+.gauge:active{transform:scale(.97)}
+.gauge::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.gauge.buy::before{background:var(--green)}
+.gauge.sell::before{background:var(--red)}
+.gauge.neutral::before{background:#2A3A50}
+.g-sym{font-family:var(--mono);font-size:8px;color:#4A6080;letter-spacing:1px;margin-bottom:3px}
+.g-val{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1}
+.g-val.buy{color:var(--green)}
+.g-val.sell{color:var(--red)}
+.g-val.neutral{color:#3A5070}
+.g-lbl{font-size:8px;font-weight:700;letter-spacing:.5px;margin-top:3px}
+.g-lbl.buy{color:var(--green)}
+.g-lbl.sell{color:var(--red)}
+.g-lbl.neutral{color:#3A5070}
+.g-rsi{font-family:var(--mono);font-size:8px;color:#2A3A50;margin-top:2px}
+.g-rsi b{color:var(--blue)}
+.g-bar{height:3px;background:var(--bg3);border-radius:2px;margin-top:5px;overflow:hidden}
+.g-bar-fill{height:100%;border-radius:2px}
+.g-bar-fill.buy{background:var(--green)}
+.g-bar-fill.sell{background:var(--red)}
+.g-bar-fill.neutral{background:#2A3A50}
+
+/* SCANNER */
+.scanner{display:flex;flex-direction:column;gap:3px}
+.scan-hdr{display:grid;grid-template-columns:95px 1fr 60px 50px;gap:4px;padding:4px 10px}
+.scan-hdr span{font-family:var(--mono);font-size:8px;color:#2A3A50;letter-spacing:1px}
+.scan-hdr span:nth-child(3),.scan-hdr span:nth-child(4){text-align:right}
+.scan-row{display:grid;grid-template-columns:95px 1fr 60px 50px;gap:4px;align-items:center;padding:8px 10px;background:var(--bg2);border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:.15s}
+.scan-row:hover,.scan-row:active{border-color:#2A3A50;background:#101828}
+.scan-row.buy{border-left:2px solid var(--green)}
+.scan-row.sell{border-left:2px solid var(--red)}
+.scan-sym{font-family:var(--mono);font-size:11px;color:var(--text);font-weight:600}
+.scan-name{font-family:var(--mono);font-size:8px;color:#3A5070}
+.scan-sig{font-size:9px;font-weight:700;letter-spacing:.5px}
+.scan-sig.buy{color:var(--green)}
+.scan-sig.sell{color:var(--red)}
+.scan-sig.neutral{color:#3A5070}
+.scan-rsi{font-family:var(--mono);font-size:10px;text-align:right}
+.scan-ema{font-family:var(--mono);font-size:11px;text-align:right}
+.scan-ema.up{color:var(--green)}
+.scan-ema.down{color:var(--red)}
+.scan-ema.flat{color:#3A5070}
+
+/* FLOW */
+.flow-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.flow-item{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.flow-item:last-child{border-bottom:none}
+.flow-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:700;font-family:var(--mono)}
+.flow-icon.buy{background:#002A18;color:var(--green)}
+.flow-icon.sell{background:#2A0010;color:var(--red)}
+.flow-icon.info{background:#0A1828;color:var(--blue)}
+.flow-time{font-family:var(--mono);font-size:9px;color:#3A5070;margin-bottom:2px}
+.flow-msg{font-size:12px;color:var(--text);line-height:1.4}
+.flow-msg b{color:var(--gold)}
+.flow-price{font-family:var(--mono);font-size:10px;color:#3A5070;margin-top:3px}
+
+/* MATRIX */
+.matrix-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.mat-hdr{display:grid;grid-template-columns:85px repeat(5,1fr);gap:2px;padding:6px 10px;border-bottom:1px solid var(--border)}
+.mat-hdr span{font-family:var(--mono);font-size:8px;color:#2A3A50;text-align:center;letter-spacing:1px}
+.mat-hdr span:first-child{text-align:left}
+.mat-row{display:grid;grid-template-columns:85px repeat(5,1fr);gap:2px;padding:6px 10px;border-bottom:1px solid #0A1018;align-items:center}
+.mat-row:last-child{border-bottom:none}
+.mat-sym{font-family:var(--mono);font-size:10px;color:var(--text)}
+.mat-cell{display:flex;align-items:center;justify-content:center}
+.mat-pill{font-size:7px;font-family:var(--mono);padding:2px 4px;border-radius:3px;font-weight:700;letter-spacing:.5px}
+.mat-pill.b{background:#002A18;color:var(--green)}
+.mat-pill.s{background:#2A0010;color:var(--red)}
+.mat-pill.n{background:#0A1220;color:#2A3A50}
+
+/* VOL */
+.vol-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vol-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.vol-lbl{font-family:var(--mono);font-size:8px;color:#3A5070;letter-spacing:1px;margin-bottom:4px}
+.vol-val{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--text)}
+.vol-unit{font-family:var(--mono);font-size:9px;color:#3A5070}
+.risk-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:2px;margin-top:5px}
+.risk-badge.alta{background:#2A0A08;color:#FF6644;border:1px solid #3A1A10}
+.risk-badge.baixa{background:#002A18;color:var(--green);border:1px solid #003A20}
+
+/* ALERTS */
+.alert-list{display:flex;flex-direction:column;gap:6px}
+.alert-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:8px;border-left:3px solid transparent}
+.alert-item.buy{border-left-color:var(--green)}
+.alert-item.sell{border-left-color:var(--red)}
+.alert-item.info{border-left-color:var(--blue)}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.alert-dot.buy{background:var(--green)}
+.alert-dot.sell{background:var(--red)}
+.alert-dot.info{background:var(--blue)}
+.alert-txt{flex:1}
+.alert-title{font-size:12px;color:var(--text);font-weight:600}
+.alert-time{font-family:var(--mono);font-size:9px;color:#3A5070;margin-top:1px}
+
+/* FOOTER */
+.footer{padding:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.footer-brand{font-family:var(--mono);font-size:8px;color:#1E2A40;letter-spacing:2px}
+.footer-ver{font-family:var(--mono);font-size:8px;color:#1E2A40}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;width:100%;max-width:380px;padding:20px;position:relative}
+.modal-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#4A6080;font-size:20px;cursor:pointer;font-family:var(--mono)}
+.modal-sym{font-family:var(--mono);font-size:10px;color:#3A5070;letter-spacing:2px;margin-bottom:4px}
+.modal-val{font-family:var(--mono);font-size:40px;font-weight:700;margin-bottom:4px}
+.modal-val.buy{color:var(--green)}
+.modal-val.sell{color:var(--red)}
+.modal-val.neutral{color:#3A5070}
+.modal-sig{font-size:13px;font-weight:700;letter-spacing:2px;margin-bottom:16px}
+.modal-sig.buy{color:var(--green)}
+.modal-sig.sell{color:var(--red)}
+.modal-sig.neutral{color:#3A5070}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.modal-stat{background:var(--bg3);border-radius:6px;padding:10px;text-align:center}
+.modal-stat-lbl{font-family:var(--mono);font-size:8px;color:#3A5070;letter-spacing:1px;margin-bottom:3px}
+.modal-stat-val{font-family:var(--mono);font-size:14px;color:var(--text);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">⬡ AURION ONLINE</div>
+    <div class="online-badge"><div class="pulse"></div>ONLINE</div>
+  </div>
+  <div class="hdr-sub">HANTEC EDITION — SISTEMA DE ALERTAS AVANÇADO</div>
+  <div class="hdr-row">
+    <div class="hdr-name">▸ ALERTAS PARA: <span>EMANUEL</span></div>
+    <div class="live-time" id="live-time">--:--:--</div>
+  </div>
+</div>
+
+<!-- SCORE GLOBAL -->
+<div class="section">
+  <div class="sec-title">pressão direcional normalizada</div>
+  <div class="score-main" id="score-card">
+    <div class="score-sym">CONSENSO GLOBAL</div>
+    <div class="score-number" id="score-num">68.4</div>
+    <div class="score-label buy" id="score-lbl" style="color:var(--green)">COMPRA FORTE</div>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="score-bar" style="width:68%;background:var(--green)"></div></div>
+    <div class="score-meta">
+      <span>Varejo <b id="var-pct">18%</b></span>
+      <span>Sentimento <b id="sent-val">+</b></span>
+      <span>Institucional <b id="inst-pct">82%</b></span>
+    </div>
+  </div>
+</div>
+
+<!-- TIMEFRAMES + GAUGES -->
+<div class="section" style="padding-top:0">
+  <div class="tfs" id="tf-bar">
+    <button class="tf-btn" onclick="setTF('M5')">M5</button>
+    <button class="tf-btn active" onclick="setTF('M15')">M15</button>
+    <button class="tf-btn" onclick="setTF('M30')">M30</button>
+    <button class="tf-btn" onclick="setTF('H1')">H1</button>
+    <button class="tf-btn" onclick="setTF('H4')">H4</button>
+    <button class="tf-btn" onclick="setTF('D1')">D1</button>
+  </div>
+  <div class="gauges" id="gauges"></div>
+</div>
+
+<div class="sep"></div>
+
+<!-- FLOW TRACKER -->
+<div class="section">
+  <div class="sec-title">rastreador de fluxo — log</div>
+  <div class="flow-box" id="flow-box"></div>
+</div>
+
+<div class="sep"></div>
+
+<!-- SCANNER -->
+<div class="section">
+  <div class="sec-title">scanner de ativos — global</div>
+  <div class="scan-hdr">
+    <span>ATIVO</span><span>SINAL</span><span style="text-align:right">RSI</span><span style="text-align:right">EMA</span>
+  </div>
+  <div class="scanner" id="scanner"></div>
+</div>
+
+<div class="sep"></div>
+
+<!-- MATRIX -->
+<div class="section">
+  <div class="sec-title">matriz de impacto — ia multi-tf</div>
+  <div class="matrix-wrap">
+    <div class="mat-hdr">
+      <span>ATIVO</span><span>M5</span><span>M15</span><span>H1</span><span>H4</span><span>D1</span>
+    </div>
+    <div id="matrix-body"></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- VOLATILIDADE -->
+<div class="section">
+  <div class="sec-title">métricas de volatilidade — xauusd</div>
+  <div class="vol-grid">
+    <div class="vol-card">
+      <div class="vol-lbl">VAR. REALIZADA</div>
+      <div class="vol-val" id="vol1">737</div>
+      <div class="vol-unit">pts hoje</div>
+    </div>
+    <div class="vol-card">
+      <div class="vol-lbl">MÉDIA SEMANAL</div>
+      <div class="vol-val" id="vol2">147</div>
+      <div class="vol-unit">pts</div>
+    </div>
+    <div class="vol-card" style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div class="vol-lbl">ESTADO RISK-ON/OFF</div>
+        <div class="risk-badge alta" id="risk-state">ALTA</div>
+      </div>
+      <div style="text-align:right">
+        <div class="vol-lbl">ATR(14)</div>
+        <div class="vol-val" style="font-size:18px" id="atr-val">18.4</div>
+        <div class="vol-unit">pontos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ALERTAS -->
+<div class="section">
+  <div class="sec-title">alertas recentes — emanuel</div>
+  <div class="alert-list" id="alert-list"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">⬡ AURION ONLINE · HANTEC MARKETS · GMT+3</div>
+  <div class="footer-ver">v2.0 · ANGOLANO2017</div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- MODAL DETALHE -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-sym" id="m-sym">XAUUSD</div>
+    <div class="modal-val buy" id="m-val">+68.4</div>
+    <div class="modal-sig buy" id="m-sig">BUY FORTE</div>
+    <div class="modal-grid">
+      <div class="modal-stat"><div class="modal-stat-lbl">RSI(14)</div><div class="modal-stat-val" id="m-rsi">67.2</div></div>
+      <div class="modal-stat"><div class="modal-stat-lbl">EMA 50/200</div><div class="modal-stat-val" id="m-ema">↑ BULL</div></div>
+      <div class="modal-stat"><div class="modal-stat-lbl">EXAUSTÃO</div><div class="modal-stat-val" id="m-exh">72%</div></div>
+      <div class="modal-stat"><div class="modal-stat-lbl">TENDÊNCIA</div><div class="modal-stat-val" id="m-trend">ALTA</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ASSETS=[
+  {sym:'XAUUSD',name:'Ouro',rsi:67.2,signal:'buy',ema:'up',exh:72},
+  {sym:'EURUSD',name:'Euro/USD',rsi:52.1,signal:'neutral',ema:'up',exh:45},
+  {sym:'GBPUSD',name:'Libra/USD',rsi:44.8,signal:'sell',ema:'down',exh:58},
+  {sym:'NAS100',name:'Nasdaq 100',rsi:61.4,signal:'buy',ema:'up',exh:65},
+  {sym:'SPX500',name:'S&P 500',rsi:58.9,signal:'buy',ema:'up',exh:60},
+  {sym:'BTCUSD',name:'Bitcoin',rsi:63.1,signal:'buy',ema:'up',exh:68},
+  {sym:'USDJPY',name:'USD/Iene',rsi:38.2,signal:'sell',ema:'down',exh:62},
+  {sym:'GBPJPY',name:'GBP/Iene',rsi:47.0,signal:'neutral',ema:'flat',exh:40},
+];
+const TF={
+  M5: [{sym:'XAUUSD',v:92.3,c:'buy'},{sym:'NAS100',v:85.1,c:'buy'},{sym:'BTCUSD',v:72.4,c:'buy'}],
+  M15:[{sym:'XAUUSD',v:88.7,c:'buy'},{sym:'NAS100',v:81.2,c:'buy'},{sym:'BTCUSD',v:68.4,c:'buy'}],
+  M30:[{sym:'XAUUSD',v:75.0,c:'buy'},{sym:'EURUSD',v:62.3,c:'buy'},{sym:'NAS100',v:55.1,c:'neutral'}],
+  H1: [{sym:'XAUUSD',v:60.2,c:'buy'},{sym:'GBPUSD',v:-48.1,c:'sell'},{sym:'USDJPY',v:-55.0,c:'sell'}],
+  H4: [{sym:'NAS100',v:82.5,c:'buy'},{sym:'SPX500',v:78.3,c:'buy'},{sym:'XAUUSD',v:65.2,c:'buy'}],
+  D1: [{sym:'GBPUSD',v:-55.2,c:'sell'},{sym:'USDJPY',v:-62.4,c:'sell'},{sym:'EURUSD',v:-44.0,c:'sell'}],
+};
+const MATRIX={
+  'XAUUSD':['b','b','b','n','s'],
+  'EURUSD':['n','b','b','b','n'],
+  'GBPUSD':['s','s','n','s','s'],
+  'NAS100':['b','b','b','b','n'],
+  'SPX500':['b','b','b','n','n'],
+  'USDJPY':['s','s','s','s','n'],
+};
+const FLOW=[
+  {t:'buy',time:'Agora',msg:'<b>FLUXO:</b> Pressão institucional COMPRA FORTE em XAUUSD',price:'Preço XAU: 3312.40'},
+  {t:'buy',time:'2m',msg:'<b>ALINHAMENTO:</b> Compra máxima M5, M15, M30 = 100%',price:'Preço XAU: 3308.15'},
+  {t:'info',time:'5m',msg:'<b>Pico de Movimento:</b> Máx alcançado 3318.20 (+156 pts)',price:'Normalizado em 4331.5a'},
+  {t:'sell',time:'18m',msg:'<b>ALERTA:</b> GBPUSD cruzou EMA50 para baixo',price:'Preço GBP: 1.2734'},
+];
+const ALERTS=[
+  {t:'buy',title:'BUY FORTE — XAUUSD detectado',time:'13:45'},
+  {t:'buy',title:'BUY FORTE — NAS100 confirmado',time:'13:41'},
+  {t:'sell',title:'SELL FORTE — GBPUSD activado',time:'13:28'},
+  {t:'info',title:'Macro: Sem eventos de alto impacto',time:'08:00'},
+];
+
+let currentTF='M15';
+
+function sigLabel(s){return s==='buy'?'BUY FORTE':s==='sell'?'SELL FORTE':'NEUTRO'}
+function emaLabel(e){return e==='up'?'↑':e==='down'?'↓':'→'}
+function emaClass(e){return e==='up'?'up':e==='down'?'down':'flat'}
+
+function renderGauges(tf){
+  const d=TF[tf]||TF['M15'];
+  const g=document.getElementById('gauges');
+  g.innerHTML='';
+  d.forEach(item=>{
+    const c=item.c;
+    const absV=Math.abs(item.v);
+    const el=document.createElement('div');
+    el.className='gauge '+c;
+    el.onclick=()=>openModal(item.sym);
+    el.innerHTML=`
+      <div class="g-sym">${item.sym}</div>
+      <div class="g-val ${c}">${item.v>0?'+':''}${item.v.toFixed(1)}</div>
+      <div class="g-lbl ${c}">${c==='buy'?'COMPRA':c==='sell'?'VENDA':'NEUTRO'}</div>
+      <div class="g-rsi">EXA: <b>${absV.toFixed(0)}%</b></div>
+      <div class="g-bar"><div class="g-bar-fill ${c}" style="width:${absV}%"></div></div>`;
+    g.appendChild(el);
+  });
+}
+
+function renderScanner(){
+  const g=document.getElementById('scanner');
+  g.innerHTML='';
+  ASSETS.forEach(a=>{
+    const row=document.createElement('div');
+    row.className='scan-row '+a.signal;
+    row.onclick=()=>openModal(a.sym);
+    const rsiColor=a.rsi>55?'color:var(--green)':a.rsi<45?'color:var(--red)':'color:var(--text)';
+    row.innerHTML=`
+      <div><div class="scan-sym">${a.sym}</div><div class="scan-name">${a.name}</div></div>
+      <div class="scan-sig ${a.signal}">${sigLabel(a.signal)}</div>
+      <div class="scan-rsi" style="${rsiColor}">${a.rsi.toFixed(1)}</div>
+      <div class="scan-ema ${emaClass(a.ema)}">${emaLabel(a.ema)}</div>`;
+    g.appendChild(row);
+  });
+}
+
+function renderMatrix(){
+  const b=document.getElementById('matrix-body');
+  b.innerHTML='';
+  Object.entries(MATRIX).forEach(([sym,cells])=>{
+    const row=document.createElement('div');
+    row.className='mat-row';
+    row.innerHTML=`<div class="mat-sym">${sym}</div>`+
+      cells.map(c=>`<div class="mat-cell"><div class="mat-pill ${c}">${c==='b'?'BUY':c==='s'?'SEL':'—'}</div></div>`).join('');
+    b.appendChild(row);
+  });
+}
+
+function renderFlow(){
+  const b=document.getElementById('flow-box');
+  b.innerHTML='';
+  FLOW.forEach(f=>{
+    const icons={buy:'↑',sell:'↓',info:'◈'};
+    const el=document.createElement('div');
+    el.className='flow-item';
+    el.innerHTML=`
+      <div class="flow-icon ${f.t}">${icons[f.t]}</div>
+      <div style="flex:1">
+        <div class="flow-time">[${f.time}]</div>
+        <div class="flow-msg">${f.msg}</div>
+        <div class="flow-price">${f.price}</div>
+      </div>`;
+    b.appendChild(el);
+  });
+}
+
+function renderAlerts(){
+  const b=document.getElementById('alert-list');
+  b.innerHTML='';
+  ALERTS.forEach(a=>{
+    const el=document.createElement('div');
+    el.className='alert-item '+a.t;
+    el.innerHTML=`<div class="alert-dot ${a.t}"></div>
+      <div class="alert-txt"><div class="alert-title">${a.title}</div>
+      <div class="alert-time">${a.time}</div></div>`;
+    b.appendChild(el);
+  });
+}
+
+function setTF(tf){
+  currentTF=tf;
+  document.querySelectorAll('.tf-btn').forEach(b=>b.classList.toggle('active',b.textContent===tf));
+  renderGauges(tf);
+  updateScore(tf);
+}
+
+function updateScore(tf){
+  const d=TF[tf]||TF['M15'];
+  const avg=d.reduce((s,i)=>s+i.v,0)/d.length;
+  const abs=Math.min(99,Math.abs(avg));
+  const isUp=avg>0;
+  const lbl=avg>60?'COMPRA FORTE':avg>30?'COMPRA':avg<-60?'VENDA FORTE':avg<-30?'VENDA':'NEUTRO';
+  document.getElementById('score-num').textContent=abs.toFixed(1);
+  document.getElementById('score-num').style.color=isUp?'var(--gold)':'var(--red)';
+  document.getElementById('score-lbl').textContent=lbl;
+  document.getElementById('score-lbl').style.color=isUp?'var(--green)':'var(--red)';
+  document.getElementById('score-bar').style.width=abs+'%';
+  document.getElementById('score-bar').style.background=isUp?'var(--green)':'var(--red)';
+  document.getElementById('score-card').style.setProperty('--bar-color',isUp?'var(--green)':'var(--red)');
+}
+
+function openModal(sym){
+  const a=ASSETS.find(x=>x.sym===sym)||ASSETS[0];
+  const c=a.signal;
+  document.getElementById('m-sym').textContent=a.sym+' — '+a.name;
+  document.getElementById('m-val').textContent=(c==='buy'?'+':c==='sell'?'-':'')+a.rsi.toFixed(1);
+  document.getElementById('m-val').className='modal-val '+c;
+  document.getElementById('m-sig').textContent=sigLabel(c);
+  document.getElementById('m-sig').className='modal-sig '+c;
+  document.getElementById('m-rsi').textContent=a.rsi.toFixed(1);
+  document.getElementById('m-ema').textContent=emaLabel(a.ema)+(a.ema==='up'?' BULL':a.ema==='down'?' BEAR':' LAT');
+  document.getElementById('m-exh').textContent=a.exh+'%';
+  document.getElementById('m-trend').textContent=a.ema==='up'?'ALTA':a.ema==='down'?'BAIXA':'LATERAL';
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modal'))
+    document.getElementById('modal').classList.remove('open');
+}
+
+function updateClock(){
+  const n=new Date();
+  const p=x=>String(x).padStart(2,'0');
+  document.getElementById('live-time').textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
+  document.getElementById('vol1').textContent=700+Math.round(Math.random()*80);
+  document.getElementById('vol2').textContent=130+Math.round(Math.random()*40);
+  document.getElementById('atr-val').textContent=(16+Math.random()*4).toFixed(1);
+}
+
+renderGauges('M15');
+renderScanner();
+renderMatrix();
+renderFlow();
+renderAlerts();
+setInterval(updateClock,1000);
+updateClock();
+</script>
+</body>
+</html>
